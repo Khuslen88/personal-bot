@@ -29,10 +29,16 @@ When the user asks about:
    python3 scripts/todo.py clear
    ```
 
-3. Format the response based on the operation:
+3. The script returns JSON with a `remaining` field listing all pending tasks. **Always show remaining tasks** after any action so the user knows what's left to do.
+
+4. Format the response based on the operation:
 
    **After adding:**
    > ✅ Added: "<task>" (Task #<number>)
+   >
+   > 📋 Remaining tasks:
+   > 1. Task one
+   > 2. Task three
 
    **Listing tasks:**
    > 📋 Your Todo List:
@@ -42,14 +48,27 @@ When the user asks about:
 
    **After completing:**
    > ✅ Marked as done: "<task>"
+   >
+   > 📋 Remaining tasks:
+   > 1. Task one
+   > 3. Task three
 
    **After removing:**
    > 🗑️ Removed: "<task>"
+   >
+   > 📋 Remaining tasks:
+   > (list from `remaining` field)
 
    **After clearing:**
    > 🧹 Cleared <N> completed tasks.
+   >
+   > 📋 Remaining tasks:
+   > (list from `remaining` field)
 
-4. If the list is empty when listing, say:
+   If `remaining` is an empty list after any action, say:
+   > 🎉 All done! No remaining tasks.
+
+5. If the list is empty when listing, say:
    > 📋 Your todo list is empty. Add a task by saying "add <task> to my todo list".
 
 ## Edge Cases

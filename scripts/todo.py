@@ -21,12 +21,22 @@ def save_todos(todos: list[dict]):
         json.dump(todos, f, indent=2)
 
 
+def get_remaining(todos: list[dict]) -> list[dict]:
+    """Return pending tasks for auto-listing after actions."""
+    remaining = []
+    for i, t in enumerate(todos, 1):
+        if not t["done"]:
+            remaining.append({"number": i, "description": t["description"]})
+    return remaining
+
+
 def add_task(description: str) -> dict:
     todos = load_todos()
     task = {"description": description, "done": False}
     todos.append(task)
     save_todos(todos)
-    return {"action": "added", "task": description, "number": len(todos)}
+    return {"action": "added", "task": description, "number": len(todos),
+            "remaining": get_remaining(todos)}
 
 
 def list_tasks() -> dict:
@@ -46,7 +56,8 @@ def mark_done(number: int) -> dict:
         return {"error": f"Invalid task number {number}. You have {len(todos)} tasks."}
     todos[number - 1]["done"] = True
     save_todos(todos)
-    return {"action": "done", "task": todos[number - 1]["description"], "number": number}
+    return {"action": "done", "task": todos[number - 1]["description"], "number": number,
+            "remaining": get_remaining(todos)}
 
 
 def remove_task(number: int) -> dict:
@@ -55,7 +66,8 @@ def remove_task(number: int) -> dict:
         return {"error": f"Invalid task number {number}. You have {len(todos)} tasks."}
     removed = todos.pop(number - 1)
     save_todos(todos)
-    return {"action": "removed", "task": removed["description"]}
+    return {"action": "removed", "task": removed["description"],
+            "remaining": get_remaining(todos)}
 
 
 def clear_completed() -> dict:
@@ -64,7 +76,8 @@ def clear_completed() -> dict:
     todos = [t for t in todos if not t["done"]]
     cleared = original_count - len(todos)
     save_todos(todos)
-    return {"action": "cleared", "cleared_count": cleared}
+    return {"action": "cleared", "cleared_count": cleared,
+            "remaining": get_remaining(todos)}
 
 
 def main():
