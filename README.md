@@ -9,7 +9,7 @@ A personal assistant bot powered by Claude Code and connected via Telegram using
 | Forex Rate | Look up live exchange rates for any currency pair | "What's the EUR/USD rate?" |
 | Forex Chart | Generate ASCII price charts for currency pairs | "Show me the USD/EUR chart for the last month" |
 | News Researcher | Search and summarize recent news on any topic | "What's the latest news about AI?" |
-| Todo Manager | Manage a persistent todo list with auto-listing of remaining tasks | "Add 'finish homework' to my todo list" |
+| Todo Manager | Forex bot improvement tracker — tracks and prioritizes capstone tasks | "What should I work on next?" |
 
 ## Setup Instructions
 
@@ -68,14 +68,14 @@ Searches the web for recent news on any topic and provides a concise summary wit
 - "Latest news about Mongolia"
 - "Summarize recent AI developments"
 
-### Todo Manager
-Manages a persistent todo list stored locally in JSON. After every action (add, complete, remove, clear), it automatically shows the remaining pending tasks so you always know what's left to do.
+### Todo Manager (Forex Bot Improvement Tracker)
+A smart todo list connected to the Forex RL Trading Bot capstone project. It comes pre-loaded with improvement tasks (Streamlit dashboard, walk-forward validation, trade journal, etc.) and understands the bot's architecture. After every action, it auto-shows remaining tasks. Can also recommend what to work on next based on priority and impact.
 
 **Example interactions:**
-- "Add 'study for exam' to my todo list"
-- "Show my todo list"
-- "Mark task 1 as done" → shows remaining tasks
-- "Remove completed tasks" → shows remaining tasks
+- "What should I work on next?" → recommends highest-impact task
+- "Show my todo list" → lists all improvements with status
+- "Mark task 1 as done" → shows remaining improvements
+- "Add 'optimize reward function' to my list"
 
 ## Project Structure
 ```

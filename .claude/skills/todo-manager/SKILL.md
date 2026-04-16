@@ -1,20 +1,32 @@
-# Todo Manager
+# Todo Manager — Forex Bot Improvement Tracker
 
 ## Description
-Manage a persistent todo list stored locally. Supports adding, listing, completing, and removing tasks.
+Track and manage improvement tasks for the Forex RL Trading Bot capstone project. This is a smart todo list that understands the forex bot's architecture and can suggest relevant improvements when asked.
 
 ## Trigger
 When the user asks about:
-- Adding a task or reminder (e.g., "add buy groceries to my todo list")
-- Viewing their tasks (e.g., "show my todos", "what's on my list")
+- Adding a task or improvement (e.g., "add Streamlit dashboard to my list")
+- Viewing tasks (e.g., "show my todos", "what's left to do on the forex bot")
 - Completing or checking off tasks (e.g., "mark task 1 as done")
 - Removing or clearing tasks (e.g., "remove task 2", "clear completed tasks")
-- Any mention of "todo", "task list", "to-do", or "checklist"
+- What to work on next for the forex bot (e.g., "what should I improve next?")
+- Any mention of "todo", "task list", "to-do", "improvements", or "what's left"
+
+## Forex Bot Context
+The forex bot is a DQN reinforcement learning trading bot located at `~/Desktop/Capstone/forex-bot/`. Key architecture:
+- **Environment:** `src/environment/forex_env.py` (basic) and `feature_env.py` (with technical indicators)
+- **Agent:** `src/agents/dqn_agent.py` (Stable-Baselines3 DQN)
+- **Baselines:** `src/agents/baselines.py` (Buy-and-Hold, SMA Crossover, Random)
+- **Evaluation:** `src/backtesting/evaluate.py` (Sharpe, Max Drawdown, Win Rate, Profit Factor)
+- **Features:** `src/features/indicators.py` (RSI, MACD, BB, ATR, SMA)
+- **Data:** yfinance + FRED fetch scripts, 5 currency pairs
+- **Demo:** `demo.py` — end-to-end pipeline
+- **Pre-trained models:** `models/dqn_EURUSD.zip`, `models/dqn_feature_EURUSD.zip`
 
 ## Instructions
 
 1. Determine which operation the user wants:
-   - **add** — Adding a new task
+   - **add** — Adding a new improvement task
    - **list** — Viewing all tasks
    - **done** — Marking a task as complete
    - **remove** — Removing a specific task
@@ -36,12 +48,12 @@ When the user asks about:
    **After adding:**
    > ✅ Added: "<task>" (Task #<number>)
    >
-   > 📋 Remaining tasks:
+   > 📋 Remaining improvements:
    > 1. Task one
    > 2. Task three
 
    **Listing tasks:**
-   > 📋 Your Todo List:
+   > 📋 Forex Bot Improvement Tracker:
    > 1. [ ] Task one
    > 2. [x] Task two (completed)
    > 3. [ ] Task three
@@ -49,27 +61,32 @@ When the user asks about:
    **After completing:**
    > ✅ Marked as done: "<task>"
    >
-   > 📋 Remaining tasks:
-   > 1. Task one
-   > 3. Task three
+   > 📋 Remaining improvements:
+   > (list from `remaining` field)
 
    **After removing:**
    > 🗑️ Removed: "<task>"
    >
-   > 📋 Remaining tasks:
+   > 📋 Remaining improvements:
    > (list from `remaining` field)
 
    **After clearing:**
    > 🧹 Cleared <N> completed tasks.
    >
-   > 📋 Remaining tasks:
+   > 📋 Remaining improvements:
    > (list from `remaining` field)
 
    If `remaining` is an empty list after any action, say:
-   > 🎉 All done! No remaining tasks.
+   > 🎉 All improvements done! The forex bot is in great shape.
 
-5. If the list is empty when listing, say:
-   > 📋 Your todo list is empty. Add a task by saying "add <task> to my todo list".
+5. **When asked "what should I work on next?"** — Run `python3 scripts/todo.py list`, look at the pending tasks, and recommend the highest-priority one based on:
+   - Impact on the demo/grading (Streamlit dashboard = high impact)
+   - Dependencies (some tasks need others done first)
+   - Difficulty (suggest easier wins if many tasks remain)
+
+6. If the list is empty when listing, say:
+   > 📋 No improvements tracked yet. Add one with "add <task> to my list".
+   > Suggestion: Start with the Streamlit dashboard or walk-forward validation.
 
 ## Edge Cases
 - If user says "done 99" but only 3 tasks exist, inform them the task number is invalid
